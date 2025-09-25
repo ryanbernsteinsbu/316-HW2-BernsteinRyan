@@ -23,7 +23,7 @@ body {
 
 #root {
   background-color: var(--swatch-primary);
-  font-family: serif;
+  font-family: "Inconsolata", serif;
   position: absolute;
   width: 80%;
   left: 10%;
