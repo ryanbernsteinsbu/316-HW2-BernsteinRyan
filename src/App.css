@@ -51,7 +51,7 @@ body {
   background-image: linear-gradient(to bottom,         
   #b8b808, #636723);
   color: white;
-  font-size: 54pt;
+  font-size: clamp(1.5em, 3em, 3em);
   border-color: black;
   border-width: 2px;
   border-style: solid;
@@ -62,7 +62,7 @@ body {
   grid-column: 1 / 2;
   grid-row: 2 / 3;
   text-align:center;
-  font-size: 36pt;
+  font-size: clamp(0.8em, 1.5em, 2em);
   font-weight: bold;
   display:flex;
   flex-direction: row;
@@ -104,7 +104,7 @@ body {
   background-color: #FFA07A;
   color: black;
   text-align: center;
-  font-size: 38pt;
+  font-size: clamp(1.5em, 3em, 3em);
   padding-top: 4px;
 }
 
