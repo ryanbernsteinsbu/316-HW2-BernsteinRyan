@@ -7,7 +7,7 @@ import { jsTPS } from 'jstps';
 
 // OUR TRANSACTIONS
 import MoveSong_Transaction from './transactions/MoveSong_Transaction.js';
-
+import RemoveSong_Transaction from './transactions/RemoveSong_Transaction.js';
 // THESE REACT COMPONENTS ARE MODALS
 import DeleteListModal from './components/DeleteListModal.jsx';
 
@@ -235,6 +235,28 @@ class App extends React.Component {
         let transaction = new MoveSong_Transaction(this, start, end);
         this.tps.processTransaction(transaction);
     }
+    deleteSong(index){
+
+        let list = this.state.currentList;
+        index -= 1;
+        list.songs.splice(index, 1)
+        // WE NEED TO UPDATE THE STATE FOR THE APP
+        
+        this.setStateWithUpdatedList(list);
+    }
+    addRemoveSongTransaction = (index) => {
+        let transaction = new RemoveSong_Transaction(this, index, this.state.currentList.songs[index - 1])
+        this.tps.processTransaction(transaction);
+    }
+    insertSong(index, song){
+        let list = this.state.currentList;
+        index -= 1;
+        let clone = JSON.parse(JSON.stringify(song));
+        list.songs.splice(index, 0, clone);
+        // UPDATE THE STATE
+        this.setStateWithUpdatedList(list);
+    }
+    
     // THIS FUNCTION BEGINS THE PROCESS OF PERFORMING AN UNDO
     undo = () => {
         if (this.tps.hasTransactionToUndo()) {
@@ -303,7 +325,8 @@ class App extends React.Component {
                 />
                 <SongCards
                     currentList={this.state.currentList}
-                    moveSongCallback={this.addMoveSongTransaction} />
+                    moveSongCallback={this.addMoveSongTransaction}
+                    removeSongCallback={this.addRemoveSongTransaction} />
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteListModal
