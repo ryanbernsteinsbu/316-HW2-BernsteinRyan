@@ -9,6 +9,17 @@ export default class SongCard extends React.Component {
             draggedTo: false
         }
     }
+    componentDidUpdate(prevProps) {
+        if (this.props.song !== prevProps.song) {
+            this.setState({
+                title: this.props.song.title,
+                year: this.props.song.year,
+                artist: this.props.song.artist,
+                youTubeId: this.props.song.youTubeId,
+                index: this.props.index
+            });
+        }
+    }
     handleDelete = (event) => {
         event.stopPropagation();
         let index = this.getItemNum();
@@ -58,13 +69,16 @@ export default class SongCard extends React.Component {
         // ASK THE MODEL TO MOVE THE DATA
         this.props.moveCallback(sourceId, targetId);
     }
-
+    handleOpenEditModal = (event) => {
+        let num = this.getItemNum();
+        this.props.editSongCallback(num); 
+    }
     getItemNum = () => {
         return this.props.id.substring("song-card-".length);
     }
 
     render() {
-        const { song } = this.props;
+        const { song, editSongCallback } = this.props;
         let num = this.getItemNum();
         console.log("num: " + num);
         let itemClass = "song-card";
@@ -80,6 +94,7 @@ export default class SongCard extends React.Component {
                 onDragEnter={this.handleDragEnter}
                 onDragLeave={this.handleDragLeave}
                 onDrop={this.handleDrop}
+                onDoubleClick={this.handleOpenEditModal}
                 draggable="true"
             >
                 <div> {num}.&nbsp;
@@ -96,13 +111,3 @@ export default class SongCard extends React.Component {
     }
 }
 
-        // <!-- PROTOTYPE FOR MAKING SONG CARDS -->
-        // <div hidden id="song-card-prototype"
-        //     class="song-card unselected-song-card">
-        //     <a id="song-card-title-" class="song-card-title"
-        //         href="https://www.youtube.com/watch?v=" target="1"></a>
-        //     <span id="song-card-year-" class="song-card-year"></span>
-        //     <span class="song-card-by"> by </span>
-        //     <span id="song-card-artist-" class="song-card-artist"></span>
-        //     <input type="button" id="remove-song-" class="song-card-button" value="🗑"/>
-        // </div>
