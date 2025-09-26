@@ -194,6 +194,10 @@ body {
   color: red;
 }
 
+.song-card-button-container { 
+  display: flex;
+  gap: 0.5rem;
+}
 .is-dragging {
   border: 2px black solid;
   opacity: 0.5;

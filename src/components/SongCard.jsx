@@ -25,6 +25,11 @@ export default class SongCard extends React.Component {
         let index = this.getItemNum();
         this.props.removeCallback(index);
     }
+    handleDuplicate = (event) => {
+        event.stopPropagation();
+        let index = this.getItemNum();
+        this.props.duplicateSongCallback(index);
+    }
     handleDragStart = (event) => {
         event.dataTransfer.setData("song", event.target.id);
         this.setState(prevState => ({
@@ -104,8 +109,10 @@ export default class SongCard extends React.Component {
                     <span className="song-card-by">&nbsp;by&nbsp;</span>
                     <span id={"song-card-artist-" + num} className="song-card-artist">{song.artist}</span>
                 </div>
-                <input type="button" id={"remove-song-" + num} onClick={this.handleDelete} className="song-card-button" value="🗑"/>
-
+                <div className="song-card-button-container">
+                    <input type="button" id={"remove-song-" + num} onClick={this.handleDelete} className="song-card-button" value="🗑"/>
+                    <input type="button" id={"duplicate-song-" + num} onClick={this.handleDuplicate} className="song-card-button" value="⎘"/>
+                </div>
             </div>
         )
     }

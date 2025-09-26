@@ -332,6 +332,11 @@ class App extends React.Component {
         };
         this.addCreateSongTransaction(list.songs.length + 1, newSong);
     }
+    duplicateSong = (index) => {
+        let song = this.getSong(index);
+        let songCopy = JSON.parse(JSON.stringify(song));
+        this.addCreateSongTransaction(index, songCopy);
+    }
     addCreateSongTransaction = (index, templateSong) =>{
         let transaction = new CreateSong_Transaction(this, index, templateSong);
         this.tps.processTransaction(transaction);
@@ -431,7 +436,8 @@ class App extends React.Component {
                     currentList={this.state.currentList}
                     moveSongCallback={this.addMoveSongTransaction}
                     removeSongCallback={this.addRemoveSongTransaction} 
-                    editSongCallback={this.editSongCallback} />
+                    editSongCallback={this.editSongCallback} 
+                    duplicateSongCallback={this.duplicateSong}/>
                 <Statusbar 
                     currentList={this.state.currentList} />
                 <DeleteListModal

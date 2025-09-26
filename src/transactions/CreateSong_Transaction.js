@@ -35,7 +35,7 @@ export default class CreateSong_Transaction extends jsTPS_Transaction {
      * Executed when this transaction is undone.
      */
     executeUndo() {
-        this.app.removeSong(this.index);
+        this.app.deleteSong(this.index);
     }
 }
 
