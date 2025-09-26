@@ -56,6 +56,11 @@ export default class EditSongModal extends Component {
         // close modal
         hideEditSongModalCallback();  
     }
+    handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+            this.handleConfirm();
+        }
+    };
     render() {
         if(!this.props.song){
             return null;
@@ -66,7 +71,9 @@ export default class EditSongModal extends Component {
             <div 
                 className="modal" 
                 id="edit-song-modal" 
-                data-animation="slideInOutLeft">
+                data-animation="slideInOutLeft"
+                onKeyDown={this.handleKeyDown}
+                tabIndex="0">
                     <div className="modal-root" id='edit-song-root'>
                         <div id="edit-song-modal-header" className="modal-north">edit song</div>
                         <div id="edit-song-modal-content" className="modal-center">

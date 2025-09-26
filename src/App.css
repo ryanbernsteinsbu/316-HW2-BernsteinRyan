@@ -120,7 +120,7 @@ body {
 */
 .playlist-card, .selected-playlist-card, .unselected-playlist-card,
 .song-card, .selected-song-card, .unselected-song-card {
-  font-size: 24pt;
+  font-size: 16px;
   margin: 10px;
   padding: 10px;
   border-radius: 125px;
@@ -156,7 +156,7 @@ body {
 .playlist-card-button,
 .song-card-button {
   float:right;
-  font-size:24pt;
+  font-size:20pt;
 }
 
 .playlist-card,
@@ -202,7 +202,15 @@ body {
   border: 2px black solid;
   opacity: 0.5;
 }
+.sidebar-button {
 
+  font-size: clamp(0.8em, 1.5em, 1.3em);
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  box-shadow: 2px 4px #888888;
+  border-radius: 5px;
+}
 .toolbar-button {
   font-size:36pt;
   border-width: 1px;
@@ -210,6 +218,12 @@ body {
   border-style: solid;
   box-shadow: 2px 4px #888888;
   border-radius: 5px;
+}
+.sidebar-button.disabled, .toolbar-button.disabled{
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.6; 
 }
 #add-playlist-button {
   float:left;
@@ -259,7 +273,7 @@ body {
   display:flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 24pt;
+  font-size: 16pt;
   height:20%;
 }
 
@@ -294,7 +308,7 @@ input {
 
 .modal-root {
   position: relative;
-  max-width: 1200vw;
+  max-width: 60vw;
   max-height: 600vh;
   overflow: visible;
   display: flex;
@@ -321,9 +335,9 @@ input {
 .modal-center {
   display: grid;
   grid-template-columns: 30% 65%;
-  grid-template-rows: 33% 33% 33%;
+  grid-template-rows: 20% 20% 20% 20% 20%;
   gap: 10px 20px;
-  font-size: 48pt;
+  font-size: 24pt;
 }
 
 span {
@@ -345,12 +359,14 @@ span {
 }
 
 .modal-prompt {  
-  font-size:28pt;
+  font-size:20pt;
   font-weight: bold;
+  height: 24px;
 }
 
 .modal-textfield {
-  font-size:28pt;
+  font-size:24pt;
+  height: 24px;
 }
 
 .modal-button {

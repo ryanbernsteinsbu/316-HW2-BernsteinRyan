@@ -104,8 +104,8 @@ export default class SongCard extends React.Component {
             >
                 <div> {num}.&nbsp;
                     <a id={"song-card-title-"+num} className="song-card-title"
-                    href={"https://www.youtube.com/watch?v="+song.youTubeId} target="1">{song.title} &nbsp;</a>
-                    <span id={"song-card-year-" + num} className="song-card-year">({song.year}) </span>
+                    href={"https://www.youtube.com/watch?v="+song.youTubeId} target="1">{song.title}</a>
+                    <span id={"song-card-year-" + num} className="song-card-year">({song.year})</span>
                     <span className="song-card-by">&nbsp;by&nbsp;</span>
                     <span id={"song-card-artist-" + num} className="song-card-artist">{song.artist}</span>
                 </div>

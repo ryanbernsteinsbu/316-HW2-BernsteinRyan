@@ -39,7 +39,8 @@ class App extends React.Component {
             listKeyPairMarkedForDeletion : null,
             currentList : null,
             sessionData : loadedSessionData,
-            songToEdit: -1
+            songToEdit: -1,
+            isModalVisible: false
         }
     }
     sortKeyNamePairsByName = (keyNamePairs) => {
@@ -161,7 +162,8 @@ class App extends React.Component {
                 nextKey: prevState.sessionData.nextKey,
                 counter: prevState.sessionData.counter - 1,
                 keyNamePairs: newKeyNamePairs
-            }
+            },
+            songToEdit: null
         }), () => {
             // DELETING THE LIST FROM PERMANENT STORAGE
             // IS AN AFTER EFFECT
@@ -232,7 +234,8 @@ class App extends React.Component {
         this.setState(prevState => ({
             listKeyPairMarkedForDeletion : prevState.listKeyPairMarkedForDeletion,
             currentList: null,
-            sessionData: this.state.sessionData
+            sessionData: this.state.sessionData,
+            songToEdit: -1
         }), () => {
             // AN AFTER EFFECT IS THAT WE NEED TO MAKE SURE
             // THE TRANSACTION STACK IS CLEARED
@@ -371,6 +374,30 @@ class App extends React.Component {
             this.db.mutationUpdateList(this.state.currentList);
         }
     }
+    componentDidMount() {
+        document.addEventListener("keydown", this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener("keydown", this.handleKeyDown);
+    }
+
+    handleKeyDown = (event) => {
+        if(this.state.isModalVisible){
+            return;
+        }
+        if(this.state.currentList !== null){ 
+            if ((event.ctrlKey || event.metaKey) && event.key === "z") {
+                event.preventDefault();
+                this.undo();
+            }
+
+            if ((event.ctrlKey || event.metaKey) && event.key === "y") {
+                event.preventDefault();
+                this.redo();
+            }
+        }
+    };
     markListForDeletion = (keyPair) => {
         this.setState(prevState => ({
             currentList: prevState.currentList,
@@ -383,36 +410,45 @@ class App extends React.Component {
     }
     // THIS FUNCTION SHOWS THE MODAL FOR PROMPTING THE USER
     // TO SEE IF THEY REALLY WANT TO DELETE THE LIST
-    showDeleteListModal() {
+    showDeleteListModal = () => {
         let modal = document.getElementById("delete-list-modal");
+        this.setState({ isModalVisible: true });
         modal.classList.add("is-visible");
     }
     // THIS FUNCTION IS FOR HIDING THE MODAL
-    hideDeleteListModal() {
+    hideDeleteListModal = () => {
         let modal = document.getElementById("delete-list-modal");
+        this.setState({ isModalVisible: false });
         modal.classList.remove("is-visible");
     }
-    showEditSongModal() {
+    showEditSongModal = () => {
         let modal = document.getElementById("edit-song-modal");
         if(!modal){
             return
         }
+        this.setState({ isModalVisible: true });
         modal.classList.add("is-visible");
     }
-    hideEditSongModal() {
+    hideEditSongModal = () => {
         let modal = document.getElementById("edit-song-modal");
+        this.setState({ isModalVisible: false });
         modal.classList.remove("is-visible");
     }
     render() {
         let canAddSong = this.state.currentList !== null;
-        let canUndo = this.tps.hasTransactionToUndo();
-        let canRedo = this.tps.hasTransactionToDo();
+        let canUndo = this.state.currentList !== null && this.tps.hasTransactionToUndo();
+        let canRedo = this.state.currentList !== null && this.tps.hasTransactionToDo();
         let canClose = this.state.currentList !== null;
+        let canAddList = true   
+        if(this.state.isModalVisible){
+                [canAddSong, canUndo, canRedo, canClose, canAddList] = [false, false, false, false, false];
+        }
         return (
             <div id="root">
                 <Banner />
                 <SidebarHeading
                     createNewListCallback={this.createNewList}
+                    canAddList={canAddList}
                 />
                 <SidebarList
                     currentList={this.state.currentList}
@@ -455,6 +491,4 @@ class App extends React.Component {
         );
     }
 }
-// we need to chnage from the editSong function to a function that marks marks and designates change from here without parameters
-// i think from the songcard we can set a state here to give song and index then make the modal visible
 export default App;
