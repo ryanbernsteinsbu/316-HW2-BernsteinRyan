@@ -9,6 +9,7 @@ import { jsTPS } from 'jstps';
 import MoveSong_Transaction from './transactions/MoveSong_Transaction.js';
 import RemoveSong_Transaction from './transactions/RemoveSong_Transaction.js';
 import EditSong_Transaction from './transactions/EditSong_Transaction.js';
+import CreateSong_Transaction from './transactions/CreateSong_Transaction.js';
 // THESE REACT COMPONENTS ARE MODALS
 import DeleteListModal from './components/DeleteListModal.jsx';
 
@@ -321,6 +322,20 @@ class App extends React.Component {
         // UPDATE THE STATE
         this.setStateWithUpdatedList(list);
     }
+    createSong = () => {
+        let list = this.state.currentList;
+        let newSong = {
+            title: "Untitled",
+            year: 2000,
+            artist: "???",
+            youTubeId: "dQw4w9WgXcQ"
+        };
+        this.addCreateSongTransaction(list.songs.length + 1, newSong);
+    }
+    addCreateSongTransaction = (index, templateSong) =>{
+        let transaction = new CreateSong_Transaction(this, index, templateSong);
+        this.tps.processTransaction(transaction);
+    }
     editSong = (index, templateSong) => {
         let list = this.state.currentList;
         index -= 1;
@@ -410,6 +425,7 @@ class App extends React.Component {
                     undoCallback={this.undo}
                     redoCallback={this.redo}
                     closeCallback={this.closeCurrentList}
+                    createSongCallback={this.createSong}
                 />
                 <SongCards
                     currentList={this.state.currentList}

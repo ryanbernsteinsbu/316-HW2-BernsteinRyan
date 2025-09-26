@@ -80,7 +80,7 @@ export default class SongCard extends React.Component {
     render() {
         const { song, editSongCallback } = this.props;
         let num = this.getItemNum();
-        console.log("num: " + num);
+        // console.log("num: " + num);
         let itemClass = "song-card";
         if (this.state.draggedTo) {
             itemClass = "song-card-dragged-to";

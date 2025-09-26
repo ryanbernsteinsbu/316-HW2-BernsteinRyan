@@ -1,5 +1,4 @@
-import { jsTPS_Transaction } from '../../jstps/index.js'
-import PlaylisterModel from '../PlaylisterModel.js';
+import { jsTPS_Transaction } from "jstps";
 
 /**
  * CreateSong_Transaction
@@ -17,25 +16,26 @@ export default class CreateSong_Transaction extends jsTPS_Transaction {
      * @param {number} initIndex The index of where the song is to be created in the playlist
      * @param {PlaylistSongPrototype} initSong The created song.
      */
-    constructor(initModel, initIndex, initSong) {
+    constructor(initApp, initIndex, initSong) {
         super();
-        this.model = initModel;
+        this.app = initApp;
         this.index = initIndex;
-        this.song = initSong;
+        let clone = JSON.parse(JSON.stringify(initSong));
+        this.song = clone;
     }
 
     /**
      * Executed when this transaction is first done or redone.
      */
-    doTransaction() {
-        this.model.createSong(this.index, this.song);
+    executeDo() {
+        this.app.insertSong(this.index, this.song);
     }
 
     /**
      * Executed when this transaction is undone.
      */
-    undoTransaction() {
-        this.model.removeSong(this.index);
+    executeUndo() {
+        this.app.removeSong(this.index);
     }
 }
 

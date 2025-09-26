@@ -22,7 +22,6 @@ export default class EditSong_Transaction extends jsTPS_Transaction {
         this.index = initIndex;
         this.originSong = JSON.parse(JSON.stringify(initSong));
         this.changeSong = JSON.parse(JSON.stringify(changeSong));
-        console.log(initSong.year + " " + changeSong.year);
     }
 
     /**
